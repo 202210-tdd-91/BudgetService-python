@@ -37,11 +37,15 @@ class BudgetService:
             return self.get_budget_by_partial_month(start, end)
 
         else:
-            total_budget = self.get_budget_by_month_start(start)
+            total_budget = 0
 
-            current = start + relativedelta(months=+1)
+            current = start
+            # current = start + relativedelta(months=+1)
             while current < end:
-                total_budget += self.get_budget_by_full_month(current)
+                if current.strftime("%Y%m") == start.strftime("%Y%m"):
+                    total_budget += self.get_budget_by_month_start(start)
+                else:
+                    total_budget += self.get_budget_by_full_month(current)
                 current = current + relativedelta(months=+1)
 
             total_budget += self.get_budget_by_month_end(end)
