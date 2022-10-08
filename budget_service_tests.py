@@ -15,7 +15,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_should_get_full_month_budget_private(self):
         test_date = datetime(2022, 10, 2)
-        budget = self.budget_service.get_month_budget(test_date)
+        budget = self.budget_service.get_month_budget(test_date).amount
         self.assertEqual(budget, 3100)
 
     def test_should_get_partial_month_budget(self):

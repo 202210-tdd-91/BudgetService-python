@@ -41,7 +41,7 @@ class BudgetService:
 
             current = start
             while current < end.replace(day=1) + relativedelta(months=+1):
-                amount_of_budget = self.get_month_budget(current)
+                amount_of_budget = self.get_month_budget(current).amount
                 days_of_month = monthrange(current.year, current.month)[1]
                 if current.strftime("%Y%m") == start.strftime("%Y%m"):
                     days = (days_of_month - start.day) + 1
@@ -50,40 +50,41 @@ class BudgetService:
                     days = end.day
                     total_budget += amount_of_budget / days_of_month * days
                 else:
-                    total_budget += self.get_month_budget(current)
+                    total_budget += self.get_month_budget(current).amount
                 current = current + relativedelta(months=+1)
 
             # total_budget += self.get_budget_by_month_end(end)
             return total_budget
 
     def get_budget_by_month_start(self, start: datetime):
-        month_budget = self.get_month_budget(start)
+        month_budget = self.get_month_budget(start).amount
         days_of_month = monthrange(start.year, start.month)[1]
         days = (days_of_month - start.day) + 1
         return month_budget / days_of_month * days
 
     def get_budget_by_month_end(self, end: datetime):
-        month_budget = self.get_month_budget(end)
+        month_budget = self.get_month_budget(end).amount
         days_of_month = monthrange(end.year, end.month)[1]
         days = end.day
         return month_budget / days_of_month * days
 
     def get_budget_by_full_month(self, date: datetime) -> Decimal:
-        return self.get_month_budget(date)
+        return self.get_month_budget(date).amount
 
     def get_budget_by_partial_month(self, start: datetime, end: datetime) -> Decimal:
-        month_budget = self.get_month_budget(start)
+        month_budget = self.get_month_budget(start).amount
         days_of_month = monthrange(start.year, start.month)[1]
         days = (end - start).days + 1
 
         return month_budget / days_of_month * days
 
-    def get_month_budget(self, date: datetime) -> int:
+    def get_month_budget(self, date: datetime) -> Budget:
         for i in self.get_budgets():
             if i.yearMonth == date.strftime("%Y%m"):
-                return i.amount
+                return i
+                # return i.amount
 
-        return 0
+        return None
 
     def get_budgets(self):
         pass
