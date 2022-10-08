@@ -24,7 +24,8 @@ class Budget:
         return datetime.strptime(self.yearMonth, '%Y%m')
 
     def get_overlapping_amount(self, period):
-        return self.daily_amount() * period.get_overlapping_days(self)
+        another_period = Period(self.get_first_day(), self.get_last_day())
+        return self.daily_amount() * period.get_overlapping_days(self, another_period)
 
 
 class BudgetsInterface:
@@ -43,8 +44,7 @@ class Period:
         self.end = end
         self.start = start
 
-    def get_overlapping_days(self, budget):
-        another_period = Period(budget.get_first_day(), budget.get_last_day())
+    def get_overlapping_days(self, budget, another_period):
         overlapping_start = self.start if self.start > another_period.start else another_period.start
         overlapping_end = self.end if self.end < another_period.end else another_period.end
         return (overlapping_end - overlapping_start).days + 1
