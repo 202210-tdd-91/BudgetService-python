@@ -62,14 +62,14 @@ class BudgetService:
             current = start
             while current < end.replace(day=1) + relativedelta(months=+1):
                 budget = self.get_month_budget(current)
-                overlapping_days = self.get_overlapping_days(start, end, budget)
+                period = Period(start, end)
+                overlapping_days = self.get_overlapping_days(start, end, budget, period)
                 total_budget += budget.daily_amount() * overlapping_days
                 current = current + relativedelta(months=+1)
 
             return total_budget
 
-    def get_overlapping_days(self, start, end, budget):
-        period = Period(start, end)
+    def get_overlapping_days(self, start, end, budget, period):
         if budget.yearMonth == period.start.strftime("%Y%m"):
             overlapping_end = budget.get_last_day()
             overlapping_start = period.start
