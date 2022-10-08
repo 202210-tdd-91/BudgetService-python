@@ -56,7 +56,9 @@ class BudgetService:
                     days = end.day
                     total_budget += budget.daily_amount() * days
                 else:
-                    total_budget += budget.amount
+                    days = budget.get_days()
+                    total_budget += budget.daily_amount() * days
+                    # total_budget += budget.amount
                 current = current + relativedelta(months=+1)
 
             # total_budget += self.get_budget_by_month_end(end)
