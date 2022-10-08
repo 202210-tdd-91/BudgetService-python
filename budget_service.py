@@ -34,6 +34,13 @@ class BudgetsInterface:
         return [budget]
 
 
+class Period:
+    def __init__(self, start, end) -> None:
+        super().__init__()
+        self.end = end
+        self.start = start
+
+
 class BudgetService:
     def __init__(self):
         budget_interface = BudgetsInterface()
@@ -62,6 +69,7 @@ class BudgetService:
             return total_budget
 
     def get_overlapping_days(self, start, end, budget):
+        period = Period(start, end)
         if budget.yearMonth == start.strftime("%Y%m"):
             overlapping_end = budget.get_last_day()
             overlapping_start = start
