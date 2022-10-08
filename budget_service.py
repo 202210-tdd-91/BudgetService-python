@@ -43,9 +43,15 @@ class BudgetService:
             # current = start + relativedelta(months=+1)
             while current < end.replace(day=1) + relativedelta(months=+1):
                 if current.strftime("%Y%m") == start.strftime("%Y%m"):
-                    total_budget += self.get_budget_by_month_start(start)
+                    month_budget = self.get_month_budget(start)
+                    days_of_month = monthrange(start.year, start.month)[1]
+                    days = (days_of_month - start.day) + 1
+                    total_budget += month_budget / days_of_month * days
                 elif current.strftime("%Y%m") == end.strftime("%Y%m"):
-                    total_budget += self.get_budget_by_month_end(end)
+                    budget = self.get_month_budget(end)
+                    month = monthrange(end.year, end.month)[1]
+                    days1 = end.day
+                    total_budget += budget / month * days1
                 else:
                     total_budget += self.get_budget_by_full_month(current)
                 current = current + relativedelta(months=+1)
