@@ -71,15 +71,16 @@ class BudgetService:
 
     def get_overlapping_days(self, budget, period):
         overlapping_start = period.start if period.start > budget.get_first_day() else budget.get_first_day()
-        if budget.yearMonth == period.start.strftime("%Y%m"):
-            overlapping_end = budget.get_last_day()
-            # overlapping_start = period.start
-        elif budget.yearMonth == period.end.strftime("%Y%m"):
-            overlapping_end = period.end
-            # overlapping_start = budget.get_first_day()
-        else:
-            overlapping_end = budget.get_last_day()
-            # overlapping_start = budget.get_first_day()
+        overlapping_end = period.end if period.end < budget.get_last_day() else budget.get_last_day()
+        # if budget.yearMonth == period.start.strftime("%Y%m"):
+        # overlapping_end = budget.get_last_day()
+        # overlapping_start = period.start
+        # elif budget.yearMonth == period.end.strftime("%Y%m"):
+        # overlapping_end = period.end
+        # overlapping_start = budget.get_first_day()
+        # else:
+        # overlapping_end = budget.get_last_day()
+        # overlapping_start = budget.get_first_day()
         return (overlapping_end - overlapping_start).days + 1
 
     def get_budget_by_month_start(self, start: datetime):
