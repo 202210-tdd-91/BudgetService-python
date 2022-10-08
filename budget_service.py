@@ -15,7 +15,7 @@ class Budget:
         return self.amount / self.get_days()
 
     def get_last_day(self):
-        first_day = datetime.strptime(self.yearMonth, '%Y%m').date()
+        first_day = self.get_first_day()
         return datetime(first_day.year, first_day.month, self.get_days())
 
     def get_first_day(self):
