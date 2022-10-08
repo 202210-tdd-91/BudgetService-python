@@ -13,37 +13,37 @@ class MyTestCase(unittest.TestCase):
         self.budget_service = BudgetService()
         self.fake_get_budgets.return_value = [Budget("202210", 3100)]
 
-    def test_should_get_full_month_budget_private(self):
-        test_date = datetime(2022, 10, 2)
-        budget = self.budget_service.get_month_budget(test_date).amount
-        self.assertEqual(budget, 3100)
-
-    def test_should_get_partial_month_budget(self):
-        start_date = datetime(2022, 10, 2)
-        end_date = datetime(2022, 10, 10)
-        budget = self.budget_service.get_budget_by_partial_month(start_date, end_date)
-        self.assertEqual(budget, 900)
-
-    def test_should_get_partial_month_budget(self):
-        start_date = datetime(2022, 10, 2)
-        end_date = datetime(2022, 10, 10)
-        budget = self.budget_service.get_budget_by_partial_month(start_date, end_date)
-        self.assertEqual(budget, 900)
-
-    def test_should_get_full_month_budget(self):
-        test_date = datetime(2022, 10, 2)
-        budget = self.budget_service.get_budget_by_full_month(test_date)
-        self.assertEqual(budget, 3100)
-
-    def test_should_get_budget_by_month_start(self):
-        test_date = datetime(2022, 10, 28)
-        budget = self.budget_service.get_budget_by_month_start(test_date)
-        self.assertEqual(budget, 400)
-
-    def test_should_get_budget_by_month_end(self):
-        test_date = datetime(2022, 10, 3)
-        budget = self.budget_service.get_budget_by_month_end(test_date)
-        self.assertEqual(budget, 300)
+    # def test_should_get_full_month_budget_private(self):
+    #     test_date = datetime(2022, 10, 2)
+    #     budget = self.budget_service.get_month_budget(test_date).amount
+    #     self.assertEqual(budget, 3100)
+    #
+    # def test_should_get_partial_month_budget(self):
+    #     start_date = datetime(2022, 10, 2)
+    #     end_date = datetime(2022, 10, 10)
+    #     budget = self.budget_service.get_budget_by_partial_month(start_date, end_date)
+    #     self.assertEqual(budget, 900)
+    #
+    # def test_should_get_partial_month_budget(self):
+    #     start_date = datetime(2022, 10, 2)
+    #     end_date = datetime(2022, 10, 10)
+    #     budget = self.budget_service.get_budget_by_partial_month(start_date, end_date)
+    #     self.assertEqual(budget, 900)
+    #
+    # def test_should_get_full_month_budget(self):
+    #     test_date = datetime(2022, 10, 2)
+    #     budget = self.budget_service.get_budget_by_full_month(test_date)
+    #     self.assertEqual(budget, 3100)
+    #
+    # def test_should_get_budget_by_month_start(self):
+    #     test_date = datetime(2022, 10, 28)
+    #     budget = self.budget_service.get_budget_by_month_start(test_date)
+    #     self.assertEqual(budget, 400)
+    #
+    # def test_should_get_budget_by_month_end(self):
+    #     test_date = datetime(2022, 10, 3)
+    #     budget = self.budget_service.get_budget_by_month_end(test_date)
+    #     self.assertEqual(budget, 300)
 
     def test_should_be_single_month(self):
         self.given_budgets([Budget("202210", 3100)])
