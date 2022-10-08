@@ -51,14 +51,14 @@ class BudgetService:
                 days_of_month = budget.get_days()
                 if budget.yearMonth == start.strftime("%Y%m"):
                     days = (days_of_month - start.day) + 1
-                    total_budget += budget.daily_amount() * days
+                    # total_budget += budget.daily_amount() * days
                 elif budget.yearMonth == end.strftime("%Y%m"):
                     days = end.day
-                    total_budget += budget.daily_amount() * days
+                    # total_budget += budget.daily_amount() * days
                 else:
                     days = budget.get_days()
-                    total_budget += budget.daily_amount() * days
-                    # total_budget += budget.amount
+                    # total_budget += budget.daily_amount() * days
+                total_budget += budget.daily_amount() * days
                 current = current + relativedelta(months=+1)
 
             # total_budget += self.get_budget_by_month_end(end)
