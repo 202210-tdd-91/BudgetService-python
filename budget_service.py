@@ -13,6 +13,9 @@ class Budget:
     def get_days(self):
         return monthrange(int(self.yearMonth[:4]), int(self.yearMonth[-2:]))[1]
 
+    def daily_amount(self):
+        return self.amount / self.get_days()
+
 
 class BudgetsInterface:
     def __init__(self):
@@ -48,7 +51,7 @@ class BudgetService:
                 days_of_month = budget.get_days()
                 if budget.yearMonth == start.strftime("%Y%m"):
                     days = (days_of_month - start.day) + 1
-                    total_budget += self.daily_amount(budget) * days
+                    total_budget += budget.daily_amount() * days
                 elif budget.yearMonth == end.strftime("%Y%m"):
                     days = end.day
                     total_budget += budget.amount / days_of_month * days
@@ -58,9 +61,6 @@ class BudgetService:
 
             # total_budget += self.get_budget_by_month_end(end)
             return total_budget
-
-    def daily_amount(self, budget):
-        return budget.amount / budget.get_days()
 
     def get_budget_by_month_start(self, start: datetime):
         month_budget = self.get_month_budget(start).amount
