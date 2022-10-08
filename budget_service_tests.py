@@ -66,7 +66,7 @@ class MyTestCase(unittest.TestCase):
         start_date = datetime(2022, 10, 28)
         end_date = datetime(2022, 11, 3)
         budget = self.budget_service.query(start_date, end_date)
-        self.assertEqual(budget, 400 + 30)
+        self.assertEqual(400 + 30, budget)
 
     def test_should_be_multiple_months(self):
         self.given_budgets([
@@ -77,7 +77,7 @@ class MyTestCase(unittest.TestCase):
         start_date = datetime(2022, 10, 28)
         end_date = datetime(2022, 12, 3)
         budget = self.budget_service.query(start_date, end_date)
-        self.assertEqual(budget, 400 + 300 + 3)
+        self.assertEqual(400 + 300 + 3, budget)
 
 
 if __name__ == "__main__":
