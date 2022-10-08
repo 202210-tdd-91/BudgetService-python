@@ -60,10 +60,11 @@ class BudgetService:
 
         period = Period(start, end)
 
-        total_budget = 0
-        for budget in self.get_budgets():
-            total_budget += budget.get_overlapping_amount(period)
-        return total_budget
+        return sum(budget.get_overlapping_amount(period) for budget in self.get_budgets())
+        # total_budget = 0
+        # for budget in self.get_budgets():
+        #     total_budget += budget.get_overlapping_amount(period)
+        # return total_budget
 
     def get_budget_by_month_start(self, start: datetime):
         month_budget = self.get_month_budget(start).amount
