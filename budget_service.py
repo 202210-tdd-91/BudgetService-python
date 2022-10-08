@@ -23,7 +23,7 @@ class Budget:
 
     def get_overlapping_amount(self, period):
         another_period = Period(self.get_first_day(), self.get_last_day())
-        return self.daily_amount() * period.get_overlapping_days(self, another_period)
+        return self.daily_amount() * period.get_overlapping_days(another_period)
 
 
 class BudgetsInterface:
@@ -42,7 +42,9 @@ class Period:
         self.end = end
         self.start = start
 
-    def get_overlapping_days(self, budget, another_period):
+    def get_overlapping_days(self, another_period):
+        if self.start > self.end:
+            return 0
         overlapping_start = self.start if self.start > another_period.start else another_period.start
         overlapping_end = self.end if self.end < another_period.end else another_period.end
         return (overlapping_end - overlapping_start).days + 1
@@ -55,16 +57,9 @@ class BudgetService:
 
     # '20220828' '20221005'
     def query(self, start: datetime, end: datetime) -> Decimal:
-        if start > end:
-            return 0
 
         period = Period(start, end)
-
         return sum(budget.get_overlapping_amount(period) for budget in self.get_budgets())
-        # total_budget = 0
-        # for budget in self.get_budgets():
-        #     total_budget += budget.get_overlapping_amount(period)
-        # return total_budget
 
     def get_budget_by_month_start(self, start: datetime):
         month_budget = self.get_month_budget(start).amount
