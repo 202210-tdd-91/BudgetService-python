@@ -1,6 +1,7 @@
-from datetime import datetime, timedelta
-from decimal import Decimal
 from calendar import monthrange
+from datetime import datetime
+from decimal import Decimal
+
 from dateutil.relativedelta import relativedelta
 
 
@@ -25,17 +26,13 @@ class BudgetService:
         budget_interface = BudgetsInterface()
         self.budgets = budget_interface.get_all()
 
-    @staticmethod
-    def get_month_delta(start, end):
-        return (end.month - start.month) + (end.year - start.year) * 12
-        # return relativedelta(end, start).months
-
     # '20220828' '20221005'
     def query(self, start: datetime, end: datetime) -> Decimal:
         if start > end:
             return 0
 
         month_delta = (end.month - start.month) + (end.year - start.year) * 12
+        # month_delta = (end.month - start.month) + (end.year - start.year) * 12
 
         total_budget = 0
         if month_delta == 0:
@@ -50,18 +47,13 @@ class BudgetService:
             return total_budget
 
         else:
-            # 20220828 20220831
             total_budget += self.get_budget_by_month_start(start)
 
-            for i in range(1, month_delta):
-                # 20220901 20220930
-                year_acc = (start.month + i - 1) // 12
-                tmp_month = (start.month + i) % 12 + 1
-                tmp_date = datetime(start.year + year_acc, tmp_month, 1)
-                # a + relativedelta(months=33)
-                total_budget += self.get_budget_by_full_month(tmp_date)
+            current = start + relativedelta(months=+1)
+            while current < end:
+                total_budget += self.get_budget_by_full_month(current)
+                current = current + relativedelta(months=+1)
 
-            # 20230601 20231005
             total_budget += self.get_budget_by_month_end(end)
             return total_budget
 
@@ -88,8 +80,11 @@ class BudgetService:
         return month_budget / days_of_month * days
 
     def get_month_budget(self, date: datetime) -> int:
-        for i in self.budgets:
+        for i in self.get_budgets():
             if i.yearMonth == date.strftime("%Y%m"):
                 return i.amount
 
         return 0
+
+    def get_budgets(self):
+        pass
