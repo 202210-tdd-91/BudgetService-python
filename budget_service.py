@@ -58,25 +58,12 @@ class BudgetService:
         if start > end:
             return 0
 
-        month_delta = (end.month - start.month) + (end.year - start.year) * 12
+        period = Period(start, end)
 
-        if month_delta == 0:
-            return self.get_budget_by_partial_month(start, end)
-
-        else:
-            period = Period(start, end)
-            total_budget = 0
-
-            for budget in self.get_budgets():
-                total_budget += budget.get_overlapping_amount(period)
-
-                # current = start
-            # while current < end.replace(day=1) + relativedelta(months=+1):
-            #     budget = self.get_month_budget(current)
-            #     total_budget += budget.get_overlapping_amount(period)
-            #     current = current + relativedelta(months=+1)
-
-            return total_budget
+        total_budget = 0
+        for budget in self.get_budgets():
+            total_budget += budget.get_overlapping_amount(period)
+        return total_budget
 
     def get_budget_by_month_start(self, start: datetime):
         month_budget = self.get_month_budget(start).amount
