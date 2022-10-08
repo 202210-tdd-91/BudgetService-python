@@ -68,8 +68,7 @@ class BudgetService:
             while current < end.replace(day=1) + relativedelta(months=+1):
                 budget = self.get_month_budget(current)
                 period = Period(start, end)
-                overlapping_days = period.get_overlapping_days(budget)
-                total_budget += budget.daily_amount() * overlapping_days
+                total_budget += budget.daily_amount() * period.get_overlapping_days(budget)
                 current = current + relativedelta(months=+1)
 
             return total_budget
