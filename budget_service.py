@@ -2,8 +2,6 @@ from calendar import monthrange
 from datetime import datetime
 from decimal import Decimal
 
-from dateutil.relativedelta import relativedelta
-
 
 class Budget:
     def __init__(self, yearMonth, amount):
@@ -68,11 +66,15 @@ class BudgetService:
         else:
             period = Period(start, end)
             total_budget = 0
-            current = start
-            while current < end.replace(day=1) + relativedelta(months=+1):
-                budget = self.get_month_budget(current)
+
+            for budget in self.get_budgets():
                 total_budget += budget.get_overlapping_amount(period)
-                current = current + relativedelta(months=+1)
+
+                # current = start
+            # while current < end.replace(day=1) + relativedelta(months=+1):
+            #     budget = self.get_month_budget(current)
+            #     total_budget += budget.get_overlapping_amount(period)
+            #     current = current + relativedelta(months=+1)
 
             return total_budget
 
