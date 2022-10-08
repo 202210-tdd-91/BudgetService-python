@@ -38,13 +38,13 @@ class BudgetService:
         if month_delta == 0:
             total_budget = self.get_budget_by_partial_month(start, end)
             return total_budget
-        elif month_delta == 1:
-            # 0828 0831
-            total_budget += self.get_budget_by_month_start(start)
-
-            # 0901 0905
-            total_budget += self.get_budget_by_month_end(end)
-            return total_budget
+        # elif month_delta == 1:
+        #     # 0828 0831
+        #     total_budget += self.get_budget_by_month_start(start)
+        #
+        #     # 0901 0905
+        #     total_budget += self.get_budget_by_month_end(end)
+        #     return total_budget
 
         else:
             total_budget += self.get_budget_by_month_start(start)
