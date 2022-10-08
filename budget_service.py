@@ -48,7 +48,7 @@ class BudgetService:
                 days_of_month = budget.get_days()
                 if budget.yearMonth == start.strftime("%Y%m"):
                     days = (days_of_month - start.day) + 1
-                    total_budget += budget.amount / days_of_month * days
+                    total_budget += budget.amount / budget.get_days() * days
                 elif budget.yearMonth == end.strftime("%Y%m"):
                     days = end.day
                     total_budget += budget.amount / days_of_month * days
