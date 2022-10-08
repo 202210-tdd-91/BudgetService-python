@@ -32,19 +32,11 @@ class BudgetService:
             return 0
 
         month_delta = (end.month - start.month) + (end.year - start.year) * 12
-        # month_delta = (end.month - start.month) + (end.year - start.year) * 12
 
         total_budget = 0
         if month_delta == 0:
-            total_budget = self.get_budget_by_partial_month(start, end)
-            return total_budget
-        # elif month_delta == 1:
-        #     # 0828 0831
-        #     total_budget += self.get_budget_by_month_start(start)
-        #
-        #     # 0901 0905
-        #     total_budget += self.get_budget_by_month_end(end)
-        #     return total_budget
+            return self.get_budget_by_partial_month(start, end)
+            # return total_budget
 
         else:
             total_budget += self.get_budget_by_month_start(start)
