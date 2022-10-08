@@ -65,12 +65,11 @@ class BudgetService:
             return self.get_budget_by_partial_month(start, end)
 
         else:
+            period = Period(start, end)
             total_budget = 0
-
             current = start
             while current < end.replace(day=1) + relativedelta(months=+1):
                 budget = self.get_month_budget(current)
-                period = Period(start, end)
                 total_budget += budget.get_overlapping_amount(period)
                 current = current + relativedelta(months=+1)
 
